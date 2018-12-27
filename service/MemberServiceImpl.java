@@ -9,11 +9,12 @@ import domain.MemberBean;
  */
 public class MemberServiceImpl implements MemberService {
 	private MemberBean[] members;
-	private int count;
+	private int count,equl;
 
 	public MemberServiceImpl() {
 		members = new MemberBean[10];
 		count = 0;
+
 	}
 
 
@@ -26,7 +27,11 @@ public class MemberServiceImpl implements MemberService {
 		member.setSsn(ssn);
 
 		members[count] = member;
+
+
+
 		count++;
+
 
 
 	}
@@ -36,6 +41,7 @@ public class MemberServiceImpl implements MemberService {
 
 		return members;
 	}
+
 
 	@Override
 	public MemberBean findMemberByid(String id) {
@@ -49,9 +55,31 @@ public class MemberServiceImpl implements MemberService {
 		return member;
 	}
 	@Override
+	public int findSomeCount(String name) {
+		int a = 0;
+		for(int i =0;i<count;i++) {
+			if(members[i].getName().equals(name)) { //메소드로 넣으면 더 빠를까?
+				a++;
+			}
+		}
+		return a;
+	}
+	@Override
 	public MemberBean[] findMemberByName(String name) {
-		MemberBean[] members1 = new MemberBean[10];
-		
+
+
+		MemberBean[] members1 = new MemberBean[findSomeCount(name)];
+		int j = 0;
+		for(int i =0;i<count;i++) {
+			if(members[i].getName().equals(name)) {
+				members1[j] = members[i]; 
+				j++;
+				if(j==members1.length) {
+					break;
+				}
+			}
+		}
+
 		return members1;
 	}
 
@@ -78,7 +106,7 @@ public class MemberServiceImpl implements MemberService {
 	public void updatePassword(String id, String pass, String newpass) {
 
 		for(int i =0; i<count;i++) {
-			if(members[i].getId().equals(id) && members[i].getPass().equals(pass)) {
+			if(existbyIdPass(id,pass)) {
 				members[i].setPass(newpass);
 			}
 		}
@@ -87,12 +115,19 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void deleteMemberId(String id,String pass) {
-		// TODO Auto-generated method stub
+		for(int i=0;i<count;i++) {
+			if(existbyIdPass(id,pass)) {
+				members[i] = members[count-1];
+				members[count-1] = null;
+				count--;
+				break;
+			}
+		}
 
 	}
 
 
-	
+
 
 
 

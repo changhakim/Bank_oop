@@ -16,6 +16,7 @@ public interface MemberService {
 	public MemberBean[] findMemberByName(String name);
 	public MemberBean findMemberByid(String id);
 	public int countMember();
+	public int findSomeCount(String name);
 	public boolean existbyIdPass(String id,String pass);
 
 	public void updatePassword(String id,String pass,String newpass);
