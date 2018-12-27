@@ -91,6 +91,7 @@ public class MemberServiceImpl implements MemberService {
 		for(int i =0;i<count;i++) {
 			if(members[i].getId().equals(id) && members[i].getPass().equals(pass)) {
 				ok = true;
+				break;
 			}
 		}
 		return ok;
@@ -108,6 +109,7 @@ public class MemberServiceImpl implements MemberService {
 		for(int i =0; i<count;i++) {
 			if(existbyIdPass(id,pass)) {
 				members[i].setPass(newpass);
+				break;
 			}
 		}
 
